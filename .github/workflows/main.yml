@@ -1,0 +1,30 @@
+name: "HRISAB TEST"
+on:
+  workflow_dispatch:
+    inputs:
+      ip:
+        description: "Target IP"
+        required: true
+        type: string
+      port:
+        description: "Target Port" 
+        required: true
+        type: string
+      duration:
+        description: "Test Duration"
+        required: true
+        type: string
+
+jobs:
+  network-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        worker: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Make binary executable  
+      run: chmod +x eagle
+    - name: Run Network Test
+      run: python3 main.py ${{ inputs.ip }} ${{ inputs.port }} 100
